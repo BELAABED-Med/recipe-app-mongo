@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import javax.validation.Valid;
 
 import static java.lang.Long.parseLong;
 import static java.lang.Long.valueOf;
@@ -29,7 +28,7 @@ public class RecipeController {
 
     @RequestMapping("{id}/show")
     public String showById(@PathVariable String id, Model model){
-        model.addAttribute("recipe",recipeService.findById(parseLong(id)));
+        model.addAttribute("recipe",recipeService.findById(id));
         return "recipe/show";
     }
 
@@ -40,7 +39,7 @@ public class RecipeController {
     }
 
     @PostMapping("")
-    public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeCommand command, BindingResult result){
+    public String saveOrUpdate(@ModelAttribute("recipe") RecipeCommand command, BindingResult result){
         if (result.hasErrors()) {
             result.getAllErrors().forEach(objectError -> {
                 log.debug(objectError.toString());
@@ -53,14 +52,14 @@ public class RecipeController {
 
     @RequestMapping("{id}/update")
     public String updateRecipe(@PathVariable String id,Model model){
-        model.addAttribute("recipe",recipeService.findCommandById(valueOf(id)));
+        model.addAttribute("recipe",recipeService.findCommandById(id));
         return RECIPE_FORM;
     }
 
     @RequestMapping("{id}/delete")
     public String deleteRecipe(@PathVariable String id){
         log.debug("Deleting id : "+id);
-        recipeService.deleteRecipe(valueOf(id));
+        recipeService.deleteRecipe(id);
         return "redirect:/";
     }
 

@@ -2,7 +2,7 @@ package com.beles.converters;
 
 import com.beles.commands.IngredientCommand;
 import com.beles.domain.Ingredient;
-import com.sun.istack.Nullable;
+import com.mongodb.lang.Nullable;
 import lombok.Synchronized;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
@@ -17,8 +17,8 @@ public class IngredientToIngredientCommand implements Converter<Ingredient, Ingr
         this.uomConverter = uomConverter;
     }
 
-    @Nullable
     @Synchronized
+    @Nullable
     @Override
     public IngredientCommand convert(Ingredient source) {
         if (source == null) {
@@ -26,9 +26,9 @@ public class IngredientToIngredientCommand implements Converter<Ingredient, Ingr
         }
         final IngredientCommand ingredientCommand=new IngredientCommand();
         ingredientCommand.setId(source.getId());
-        if (source.getRecipe() != null) {
-            ingredientCommand.setRecipeId(source.getRecipe().getId());
-        }
+//        if (source.getRecipe() != null) {
+//            ingredientCommand.setRecipeId(source.getRecipe().getId());
+//        }
         ingredientCommand.setDescription(source.getDescription());
         ingredientCommand.setAmount(source.getAmount());
         ingredientCommand.setUom(uomConverter.convert(source.getUom()));

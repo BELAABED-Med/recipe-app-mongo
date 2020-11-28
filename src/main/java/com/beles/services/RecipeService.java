@@ -9,13 +9,13 @@ public interface RecipeService {
 
     Set<Recipe> getRecipes();
 
-    Recipe findById(Long id);
+    Recipe findById(String id);
 
     RecipeCommand saveRecipeCommand(RecipeCommand command);
 
-    RecipeCommand findCommandById(Long id);
+    RecipeCommand findCommandById(String id);
 
-    void deleteRecipe(Long id);
+    void deleteRecipe(String id);
 
 
 }

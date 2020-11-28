@@ -32,7 +32,7 @@ public class IngredientserviceIml implements IngredientService {
     }
 
     @Override
-    public IngredientCommand findByRecipeIdAndIngredientId(Long recipeId, Long ingredientId) {
+    public IngredientCommand findByRecipeIdAndIngredientId(String recipeId,String ingredientId) {
 
         Optional<Recipe> optionalRecipe=recipeRepository.findById(recipeId);
 
@@ -71,14 +71,14 @@ public class IngredientserviceIml implements IngredientService {
                 Ingredient ingredientFound=ingredientOptional.get();
                 ingredientFound.setDescription(command.getDescription());
                 ingredientFound.setAmount(command.getAmount());
-                ingredientFound.setUom(unitOfMeasureRepository
-                        .findById(command.getUom().getId())
-                        .orElseThrow(()->new RuntimeException("Unit Of Measure Not Found"))
-                );
+//                ingredientFound.setUom(unitOfMeasureRepository
+//                        .findById(command.getUom().getId())
+//                        .orElseThrow(()->new RuntimeException("Unit Of Measure Not Found"))
+//                );
             }else{
                 //add new Ingredient
                 Ingredient ingredient=ingredientCommandConvert.convert(command);
-                ingredient.setRecipe(recipe);
+//                ingredient.setRecipe(recipe);
                 recipe.addIngredient(ingredient);
             }
             Recipe savedrecipe=recipeRepository.save(recipe);
@@ -95,14 +95,16 @@ public class IngredientserviceIml implements IngredientService {
                         .filter(recipeIngredients->recipeIngredients.getUom().getId().equals(command.getUom().getId()))
                         .findFirst();
             }
-            return ingredientConverter.convert(savedIngredientOptional.get());
+            IngredientCommand ingredientCommandSaved=ingredientConverter.convert(savedIngredientOptional.get());
+            ingredientCommandSaved.setRecipeId(recipe.getId());
+            return ingredientCommandSaved;
         }
     }
 
     @Override
-    public void deleteById(Long recipeId, Long ingredientId) {
+    public void deleteById(String recipeId, String ingredientId) {
 //        IngredientCommand detachedIngredient=findByRecipeIdAndIngredientId(recipeId.longValue(), ingredientId.longValue());
-        Optional<Recipe> optionalRecipe=recipeRepository.findById(recipeId.longValue());
+        Optional<Recipe> optionalRecipe=recipeRepository.findById(recipeId);
         if (!optionalRecipe.isPresent()) {
             log.error("Recipe Not Found");
         }
@@ -117,7 +119,7 @@ public class IngredientserviceIml implements IngredientService {
         }else{
             log.info("Ingredient Is Found");
             Ingredient ingredientToDelete=optionalIngredient.get();
-            ingredientToDelete.setRecipe(null);
+//            ingredientToDelete.setRecipe(null);
             recipe.getIngredients().remove(optionalIngredient.get());
             recipeRepository.save(recipe);
         }

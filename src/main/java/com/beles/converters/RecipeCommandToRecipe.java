@@ -4,7 +4,8 @@ import com.beles.commands.CategoryCommand;
 import com.beles.commands.IngredientCommand;
 import com.beles.commands.RecipeCommand;
 import com.beles.domain.Recipe;
-import com.sun.istack.Nullable;
+
+import com.mongodb.lang.Nullable;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

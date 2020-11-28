@@ -1,10 +1,9 @@
 package com.beles.services;
 
 import com.beles.commands.UnitOfMeasureCommand;
-import com.beles.converters.UnitOfMeasureCommandToUnitOfMeasure;
 import com.beles.converters.UnitOfMeasureToUniteOfMeasureCommand;
-import com.beles.domain.UnitOfMeasure;
 import com.beles.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -12,6 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
+@Slf4j
 public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
 
     private final UnitOfMeasureToUniteOfMeasureCommand unitOfMeasureConverter;
